@@ -4,8 +4,7 @@
 using namespace std;
 
 int main() {
-	SBox s1(2, 8, "sbox1.txt"), s2(2, 8, "sbox2.txt");
-	cout << "Testando round: Valor de block: 45; Valor de Ki: 10; \n";
-	cout << "Valor de round(block, Ki): " << round(45, 10, s1, s2) << endl;
+	cout << "Valor de encrypt para 45, chave 10 e 8 rodadas: " << encrypt(45, 10, 8) << endl;
+	cout << "Valor de decrypt para 2607, chave 10 e 8 rodadas: " << decrypt(2607, 10, 8) << endl;
 	return 0;
 }
