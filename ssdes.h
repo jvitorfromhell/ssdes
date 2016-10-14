@@ -12,3 +12,5 @@ public:
 
 	int get(int key);
 };
+
+int E(int Di_minus_one);
