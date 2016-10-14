@@ -109,3 +109,56 @@ unsigned int decrypt(unsigned int block, unsigned int key, unsigned int rounds) 
 	unsigned int En = (block & 4032) >> 6;
 	return (Dn << 6) | En;
 }
+
+void encrypt_text(string filename, unsigned int key) {
+	ifstream input(filename);
+	ofstream output(filename.append("_encrypted"));
+	unsigned char c1, c2, c3;
+	unsigned int curr_block_1, curr_block_2, encrypted_1, encrypted_2;
+
+	input >> c1;
+	input >> c2;
+	input >> c3;
+
+	curr_block_1 = (c1 << 4) | (c2 >> 4);
+	curr_block_2 = ((c2 & 15) << 8) | c3;
+
+	encrypted_1 << encrypt(curr_block_1, key, 16);
+	encrypted_2 << encrypt(curr_block_2, key, 16);
+
+	c1 = encrypted_1 >> 4;
+	c2 = ((encrypted_1 & 15) << 4) | ((encrypted_2 & 3840) >> 8);
+	c3 = encrypted_2 & 255;
+
+	output << c1 << c2 << c3;
+
+	input.close();
+	output.close();
+
+}
+
+void decrypt_text(string filename, unsigned int key) {
+	ifstream input(filename);
+	ofstream output(filename.append("_decrypted"));
+	unsigned char c1, c2, c3;
+	unsigned int curr_block_1, curr_block_2, decrypted_1, decrypted_2;
+
+	input >> c1;
+	input >> c2;
+	input >> c3;
+
+	curr_block_1 = (c1 << 4) | (c2 >> 4);
+	curr_block_2 = ((c2 & 15) << 8) | c3;
+
+	decrypted_1 << decrypt(curr_block_1, key, 16);
+	decrypted_2 << decrypt(curr_block_2, key, 16);
+
+	c1 = decrypted_1 >> 4;
+	c2 = ((decrypted_1 & 15) << 4) | ((decrypted_2 & 3840) >> 8);
+	c3 = decrypted_2 & 255;
+
+	output << c1 << c2 << c3;
+
+	input.close();
+	output.close();
+}

@@ -22,3 +22,6 @@ unsigned char circular_shift_right(unsigned char Ki);
 
 unsigned int encrypt(unsigned int block, unsigned int key, unsigned int rounds);
 unsigned int decrypt(unsigned int block, unsigned int key, unsigned int rounds);
+
+void encrypt_text(string filename, unsigned int key);
+void decrypt_text(string filename, unsigned int key);
