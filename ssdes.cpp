@@ -29,7 +29,7 @@ SBox::~SBox() {
 }
 
 int SBox::get(int position) {
-	return matrix[position & 8 >> 3][position & 7];
+	return matrix[(position & 8) >> 3][position & 7];
 }
 
 int E(int Di_minus_one) {
@@ -38,4 +38,11 @@ int E(int Di_minus_one) {
 	int fourth_bit = (Di_minus_one & 4) >> 2;
 	int last_two_bits = Di_minus_one & 3;
 	return (first_two_bits << 6) | (fourth_bit << 5) | (third_bit << 4) | (fourth_bit << 3) | (third_bit << 2) | (last_two_bits);
+}
+
+int F(int Di_minus_one, int Ki, SBox &s1, SBox &s2) {
+	int expanded = E(Di_minus_one);
+	int pre_SBoxes = expanded ^ Ki;
+	
+	return (s1.get((pre_SBoxes & 240) >> 4) << 3) | (s2.get(pre_SBoxes & 15));
 }

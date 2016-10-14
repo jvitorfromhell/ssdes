@@ -14,3 +14,4 @@ public:
 };
 
 int E(int Di_minus_one);
+int F(int Di_minus_one, int Ki, SBox &s1, SBox &s2);
