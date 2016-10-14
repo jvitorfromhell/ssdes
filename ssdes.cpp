@@ -46,3 +46,13 @@ int F(int Di_minus_one, int Ki, SBox &s1, SBox &s2) {
 	
 	return (s1.get((pre_SBoxes & 240) >> 4) << 3) | (s2.get(pre_SBoxes & 15));
 }
+
+int round(int block, int Ki, SBox &s1, SBox &s2) {
+	int Ei_minus_one = (block & 4032) >> 6;
+	int Di_minus_one = (block & 63);
+
+	int Ei = Di_minus_one;
+	int Di = Ei_minus_one ^ F(Di_minus_one, Ki, s1, s2);
+
+	return (Ei << 6) | Di;
+}

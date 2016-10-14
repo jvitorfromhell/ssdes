@@ -15,3 +15,4 @@ public:
 
 int E(int Di_minus_one);
 int F(int Di_minus_one, int Ki, SBox &s1, SBox &s2);
+int round(int block, int Ki, SBox &s1, SBox &s2);
