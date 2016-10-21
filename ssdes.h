@@ -28,8 +28,8 @@ unsigned int round(unsigned int block, unsigned char Ki, SBox &s1, SBox &s2);
 	Funções auxiliares do SSDES.
 */
 
-unsigned char circular_shift_left(unsigned char Ki);
-unsigned char circular_shift_right(unsigned char Ki);
+unsigned int circular_shift_left(unsigned int Ki);
+unsigned int circular_shift_right(unsigned int Ki);
 
 /*
 	SSDES propriamente dito: encriptar ou desencriptar um bloco.

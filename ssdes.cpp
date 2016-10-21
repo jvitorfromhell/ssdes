@@ -85,12 +85,12 @@ unsigned int round(unsigned int block, unsigned char Ki, SBox &s1, SBox &s2) {
 	circular_shift_left: shifta o valor de entrada pra esquerda, com carry bit.
 */
 
-unsigned char circular_shift_left(unsigned char Ki) {
-	if ((Ki & 128) == 0) {
-		return Ki << 1;
+unsigned int circular_shift_left(unsigned int Ki) {
+	if ((Ki & 256) == 0) {
+		return (Ki << 1) & (511);
 	}
 	else {
-		return (Ki << 1) | 1;
+		return ((Ki << 1) | 1) & (511);
 	}
 }
 
@@ -98,12 +98,12 @@ unsigned char circular_shift_left(unsigned char Ki) {
 	circular_shift_right: shifta o valor de entrada pra direita, com carry bit.
 */
 
-unsigned char circular_shift_right(unsigned char Ki) {
+unsigned int circular_shift_right(unsigned int Ki) {
 	if ((Ki & 1) == 0) {
-		return Ki >> 1;
+		return (Ki >> 1) & (511);
 	}
 	else {
-		return (Ki >> 1) | 128;
+		return ((Ki >> 1) | 256) & (511);
 	}
 }
 
@@ -114,10 +114,10 @@ unsigned char circular_shift_right(unsigned char Ki) {
 
 unsigned int encrypt(unsigned int block, unsigned int key, unsigned int rounds, SBox &s1, SBox &s2) {
 
-	unsigned char Ki = (key & 510) >> 1;
+	unsigned int Ki = key & 510;
 
 	for (unsigned int i = 0; i < rounds; i++) {
-		block = round(block, Ki, s1, s2);
+		block = round(block, (unsigned char)(Ki >> 1), s1, s2);
 		Ki = circular_shift_left(Ki);
 	}
 
@@ -133,14 +133,14 @@ unsigned int encrypt(unsigned int block, unsigned int key, unsigned int rounds, 
 
 unsigned int decrypt(unsigned int block, unsigned int key, unsigned int rounds, SBox &s1, SBox &s2) {
 
-	unsigned char Ki = (key & 510) >> 1;
+	unsigned int Ki = key & 510;
 
 	for (unsigned int i = 0; i < rounds - 1; i++) {
 		Ki = circular_shift_left(Ki);
 	}
 
 	for (unsigned int i = 0; i < rounds; i++) {
-		block = round(block, Ki, s1, s2);
+		block = round(block, (unsigned char)(Ki >> 1), s1, s2);
 		Ki = circular_shift_right(Ki);
 	}
 
